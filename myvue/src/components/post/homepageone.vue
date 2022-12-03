@@ -5,7 +5,7 @@
 
           <input type="text" v-model="keyWord">
 
-          <input type="button" value="百度一下" @click="keyWordSearch()">
+          <input type="button" value="一下" @click="keyWordSearch()">
 
       </form>
     <hr></hr>
