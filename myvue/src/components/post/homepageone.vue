@@ -1,55 +1,58 @@
 <template>
-  <div class="right">
-
-      <form action="" class="parent">
-
-          <input type="text" v-model="keyWord">
-
-          <input type="button" value="一下" @click="keyWordSearch()">
-
-      </form>
-    <hr></hr>
-    <div class="article">
-      <div class="articleItem"
-        v-for="(item, index) in postsList" :key="index"
-        @click="$router.push({ name: 'posts', params: { postsId: item.postId } })"
-      >
-        <div class="userAvatar">
-          <img :src="require('../../assets/defaultAvatar.jpg')" alt="" lazy fit="cover"/>
-        </div>
-        <div class="ItemCenter">
-          <div class="title">{{ item.title }}</div>
-          <div class="publishDate">{{ item.updateTime}}</div>
-          <div class="content mdContent" v-html="item.content"></div>
-          <div class="articleImg">
-            <img :src="require('../../assets/background.jpg')" class="articleImgItem" fit="contain" lazy/>
+  <div id="building">
+    <div class="right">
+      <el-input v-model="keyWord" placeholder="请输入内容"></el-input>
+      <el-button icon="el-icon-search" circle @click="keyWordSearch()"></el-button>
+      <br>
+      <br>
+      <div class="article">
+        <div class="articleItem"
+          v-for="(item, index) in postsList" :key="index"
+          @click="$router.push({ name: 'posts', params: { postsId: item.postId } })"
+        >
+          <div class="userAvatar">
+            <img :src="require('../../assets/defaultAvatar.jpg')" alt="" lazy fit="cover"/>
           </div>
-        </div>
-        <div class="ItemRight">
-          <div class="replyCount">
-            <i class="iconfont icon-kuaisuhuifu"></i>
-            获赞数:{{item.likes}} <br>
-            楼层数:{{item.floors}}  <br>
-            浏览数:{{item.views}} <br><br>
+          <div class="ItemCenter">
+            <div class="title" v-html="item.title"></div>
+            <div class="publishDate">{{ item.updateTime}}</div>
+            <div class="content mdContent" v-html="item.content"></div>
+
           </div>
-          <div>
-            <i class="el-icon-user"/>
-            {{item.nickname}}
+          <div class="ItemRight">
+            <div>
+              <i class="el-icon-thumb"/>
+              {{item.likes}}
+            </div>
+            <div>
+              <i class="el-icon-chat-round"/>
+              {{item.floors}}
+            </div>
+            <br><br>
+            <div>
+              <i class="el-icon-s-custom"/>
+              {{item.nickname}}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="bottom">
       <!-- 分页组件 -->
       <el-pagination background layout="prev, pager, next" :total="100"
-        :current-page="this.$route.query.page * 1"
-        @current-change="changePage"
+                     :current-page="this.$route.query.page * 1"
+                     @current-change="changePage"
+                     v-show="searched===true"
       >
       </el-pagination>
-    </div>
-    <GoTop></GoTop>
-    </div>
 
+
+      <el-carousel :interval="4000" type="card" height="300px" v-show="searched===false">
+        <el-carousel-item v-for="item in imgwrap" :key="item.url">
+          <img :src="item.url"/>
+        </el-carousel-item>
+      </el-carousel>
+      <GoTop></GoTop>
+      </div>
+    </div>
 </template>
 
 <script>
@@ -62,17 +65,26 @@ export default {
   },
   data(){
       return{
+        searched:false,
+
         postsList:[],
         eachPage:'',
         pagination:'',
         order:'',
         total:'',
         keyWord:'',
+        imgwrap:[
+          {url:require("../../assets/1.jpg")},
+          {url:require("../../assets/2.jpg")},
+          {url:require("../../assets/3.jpg")},
+          {url:require("../../assets/4.jpg")},
+          {url:require("../../assets/5.jpg")}
+        ]
+
     }
   },
   created() {
 
-    this.getInfos()
   },
   methods:{
 
@@ -81,10 +93,13 @@ export default {
       self.$axios({
         method:'get',
          url:'/post/posts?keyword='+this.keyWord+'&userId'+this.$route.query.typeId
-           +'&size=15&page='+this.$route.query.page+'&order=1'
+           +'&size=15&page='+(this.$route.query.page-1)+'&order=1'
       }).then(res=>{
         console.log(res)
         if(res.data.flag===true) {
+
+          self.searched=true;
+
           this.postsList=res.data.data.records
           this.total=res.data.data.total
           window.scrollTo({
@@ -119,6 +134,10 @@ export default {
 
 
 <style scoped>
+.el-input{
+  width:500px;
+  border-radius: 30px;
+}
 .communityContainer {
   display: flex;
   justify-content: center;
@@ -192,8 +211,8 @@ export default {
 }
 
 .ItemCenter div {
-  margin-bottom: 1px;
-  line-height: 18px;
+  margin-bottom: 7px;
+  line-height: 24px;
 }
 
 .title {
@@ -285,69 +304,28 @@ export default {
 
 }
 
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 200px;
+  margin: 0;
+}
 
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
 
-.parent {
-
-    width: 100%;
-
-    height: 42px;
-
-    top: 4px;
-
-    position: relative;
-
+.el-carousel__item:nth-child(2n+1) {
+  background-color: #d3dce6;
+}
+#building{
+  background:url("../../assets/9.jpg");
+  width:100%;
+  height:100%;
+  position:fixed;
+  background-size:100% 100%;
 }
 
 
-
-.parent>input:first-of-type {
-
-    /*输入框高度设置为40px, border占据2px，总高度为42px*/
-
-    width: 380px;
-
-    height: 40px;
-
-    border: 1px solid #ccc;
-
-    font-size: 16px;
-
-    outline: none;
-
-}
-
-
-
-.parent>input:first-of-type:focus {
-
-    border: 1px solid #317ef3;
-
-    padding-left: 10px;
-
-}
-
-
-
-.parent>input:last-of-type {
-
-    /*button按钮border并不占据外围大小，设置高度42px*/
-
-    width: 100px;
-
-    height: 44px;
-
-    position: absolute;
-
-    background: #317ef3;
-
-    border: 1px solid #317ef3;
-
-    color: #fff;
-
-    font-size: 16px;
-
-    outline: none;
-
-}
 </style>

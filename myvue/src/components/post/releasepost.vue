@@ -2,12 +2,13 @@
   <body>
   <h1>发布新问题</h1>
   <el-form ref="form" :model="form" label-width="80px" :rules="rules">
-    <el-form-item label="帖子标题" prop="title">
+    <el-form-item label="问题" prop="title">
       <el-input v-model="form.title" ></el-input>
     </el-form-item>
+    <h5>问题描述（可为空）</h5>
     <!--进行列表渲染，数据全部存在Vuex的全局静态变量里，修改分区数只需要修改store/index.js的静态数据-->
 
-    </el-form-item>
+<!--    </el-form-item>-->
 <!--    <el-form-item label="帖子内容" prop="content">-->
 <!--      <el-input type="textarea" v-model="form.content" :rows="20"></el-input>-->
 <!--    </el-form-item>-->
@@ -31,6 +32,7 @@
 <script>
 import axios from "axios"
 import { mavonEditor } from 'mavon-editor';
+import {marked} from "marked";
 import 'mavon-editor/dist/css/index.css';
 
 export default {
@@ -44,7 +46,7 @@ export default {
       },
       rules:{
         title:[{required : true,message: '请输入标题',trigger:'blur'}],
-        content:[{required : true,message: '请输入内容',trigger:'blur'}],
+
       }
     }
   },
@@ -57,7 +59,7 @@ export default {
   methods: {
     onSubmit() {
       //alert('submit!');
-      if(this.form.content===''||this.form.title===''){
+      if(this.form.title===''){
         alert("有未填写项，无法发布")
       }
       else if(this.$store.state.localid===''||this.$store.state.localid===undefined){
@@ -65,12 +67,14 @@ export default {
       }
       else {
         const self = this;
+
         self.$axios({
           method:'post',
           url:'/post',
           data:{
-            title:self.form.title,
-            content:self.form.content
+            title: self.form.title,
+            // content:  self.form.content
+            content: marked.parse(self.form.content)
           }
         })
         .then(res=>{

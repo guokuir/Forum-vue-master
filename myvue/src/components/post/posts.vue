@@ -28,7 +28,8 @@
             </div>
           </div>
           <!-- 文章内容 -->
-          <markdown-it-vue class="md-body" :content="contents"/>
+<!--          <markdown-it-vue class="md-body" :content="contents"/>-->
+          <div class="question_descrption" v-html="contents"/>
           <div class="commentControl">
             <div class="commentControlItem" @click="likeCurrentArticle()" v-if="isUserLike===false">
               <i class="iconfont icon-dianzan"></i>
@@ -472,10 +473,10 @@ export default {
     // document.head.appendChild(link)
   },
   computed: {
-    markdownToHtml:function(){
-      return marked(this.$data.contents);
-      //return md.render(this.contents);
-    }
+    // markdownToHtml:function(){
+    //   return marked.parse(this.$data.contents);
+    //   //return md.render(this.contents);
+    // }
   }
 }
 </script>

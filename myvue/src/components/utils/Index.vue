@@ -18,9 +18,9 @@
                  active-text-color="#ffd04b"
                  :router="true">
 
-          <el-menu-item index="/welcome">首页</el-menu-item>
-          <el-menu-item index="/homepageone">搜索</el-menu-item>
-          <el-menu-item index="/releasepost">发布新帖</el-menu-item>
+
+          <el-menu-item index="/homepageone">首页</el-menu-item>
+          <el-menu-item index="/releasepost">发布问题</el-menu-item>
 
           <el-menu-item index="/userProfile" >个人信息</el-menu-item>
           <el-menu-item v-if="isAdmin === true" index="adminProfile">后台管理</el-menu-item>
