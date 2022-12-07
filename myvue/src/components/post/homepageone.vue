@@ -1,17 +1,35 @@
 <template>
-  <div id="building">
+  <section class="nav">
     <div class="right">
-      <el-input v-model="keyWord" placeholder="请输入内容"></el-input>
-      <el-button icon="el-icon-search" circle @click="keyWordSearch()"></el-button>
+
+<!--
+      <el-input v-model="keyWord" placeholder="请输入问题"  ></el-input>
+-->
+
+      <el-autocomplete
+        v-model="keyWord"
+        :fetch-suggestions="querySearchAsync"
+        placeholder="请输入内容"
+        @select="handleSelect"
+      ></el-autocomplete>
+
+
+
+
+
+
+
+
+      <el-button icon="el-icon-search"  type="info" circle @click="keyWordSearch()"></el-button>
       <br>
       <br>
       <div class="article">
         <div class="articleItem"
-          v-for="(item, index) in postsList" :key="index"
-          @click="$router.push({ name: 'posts', params: { postsId: item.postId } })"
+             v-for="(item, index) in postsList" :key="index"
+             @click="$router.push({ name: 'posts', params: { postsId: item.postId } })"
         >
           <div class="userAvatar">
-            <img :src="require('../../assets/defaultAvatar.jpg')" alt="" lazy fit="cover"/>
+            <img :src="require('../../assets/用户.png')" alt="" lazy fit="cover"/>
           </div>
           <div class="ItemCenter">
             <div class="title" v-html="item.title"></div>
@@ -29,30 +47,32 @@
               {{item.floors}}
             </div>
             <br><br>
-            <div>
-              <i class="el-icon-s-custom"/>
-              {{item.nickname}}
-            </div>
+
           </div>
         </div>
       </div>
       <!-- 分页组件 -->
-      <el-pagination background layout="prev, pager, next" :total="100"
-                     :current-page="this.$route.query.page * 1"
-                     @current-change="changePage"
-                     v-show="searched===true"
-      >
-      </el-pagination>
+      <div class="bottom">
+        <el-pagination  layout="prev, pager, next" :total="100"
+                        :current-page="this.$route.query.page * 1"
+                        @current-change="changePage"
+                        v-show="searched===true"
+                        :background="isbackground"
+        >
+        </el-pagination>
+      </div>
 
+      <br><br><br><br>
 
-      <el-carousel :interval="4000" type="card" height="300px" v-show="searched===false">
-        <el-carousel-item v-for="item in imgwrap" :key="item.url">
+      <el-carousel :interval="4000" type="card" height="400px" v-show="searched===false" style="width: 1400px; margin: auto">
+        <el-carousel-item v-for="item in imgwrap"  :key="item.url">
+
           <img :src="item.url"/>
         </el-carousel-item>
       </el-carousel>
       <GoTop></GoTop>
-      </div>
     </div>
+  </section>
 </template>
 
 <script>
@@ -64,36 +84,42 @@ export default {
     GoTop
   },
   data(){
-      return{
-        searched:false,
+    return{
+      searched:false,
 
-        postsList:[],
-        eachPage:'',
-        pagination:'',
-        order:'',
-        total:'',
-        keyWord:'',
-        imgwrap:[
-          {url:require("../../assets/1.jpg")},
-          {url:require("../../assets/2.jpg")},
-          {url:require("../../assets/3.jpg")},
-          {url:require("../../assets/4.jpg")},
-          {url:require("../../assets/5.jpg")}
-        ]
+      postsList:[],
+      eachPage:'',
+      pagination:'',
+      order:'',
+      total:'',
+      isbackground:true,
+      keyWord:'',
+      imgwrap:[
+        {url:require("../../assets/search.jpg")},
+        {url:require("../../assets/publish.jpg")},
+        {url:require("../../assets/manage.jpg")},
+
+      ],
+      restaurants: [],
+      state: '',
+      timeout:  null
+
+
 
     }
   },
   created() {
 
   },
+
   methods:{
 
     getInfos() {
       const self = this;
       self.$axios({
         method:'get',
-         url:'/post/posts?keyword='+this.keyWord+'&userId'+this.$route.query.typeId
-           +'&size=15&page='+(this.$route.query.page-1)+'&order=1'
+        url:'/post/posts?keyword='+this.keyWord+'&userId'+this.$route.query.typeId
+          +'&size=15&page='+(this.$route.query.page-1)+'&order=1'
       }).then(res=>{
         console.log(res)
         if(res.data.flag===true) {
@@ -121,6 +147,8 @@ export default {
       });
       this.getInfos()
     },
+
+
     keyWordSearch(){
       this.page=1;
       this.changePage(1);
@@ -128,15 +156,43 @@ export default {
     clearKeyWord(){
       this.keyWord='';
     },
+    loadAll() {
+      return [
+        { "value": "三全鲜食（北新泾店）", "address": "长宁区新渔路144号" },
+        { "value": "Hot honey 首尔炸鸡（仙霞路）", "address": "上海市长宁区淞虹路661号" }
+      ];
+    },
+    querySearchAsync(queryString, cb) {
+      var restaurants = this.restaurants;
+      var results = queryString ? restaurants.filter(this.createStateFilter(queryString)) : restaurants;
+
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        cb(results);
+      }, 3000 * Math.random());
+    },
+    createStateFilter(queryString) {
+      return (keyWord) => {
+        return (keyWord.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+      };
+    },
+    handleSelect(item) {
+      console.log(item);
+    }
+  },
+  mounted() {
+    this.restaurants = this.loadAll();
   }
+
+
 }
 </script>
 
 
 <style scoped>
-.el-input{
-  width:500px;
-  border-radius: 30px;
+.el-autocomplete{
+  width:800px;
+  border-radius: 50%;
 }
 .communityContainer {
   display: flex;
@@ -177,11 +233,14 @@ export default {
 }
 
 .currentItem {
-  color: #18365b;
+  color: #8B4513;
   font-weight: 600;
 }
+.article{
 
+}
 .articleItem {
+
   display: flex;
   position: relative;
   border-bottom: 1px solid #eee;
@@ -277,12 +336,7 @@ export default {
   margin: 20px 0;
 }
 
-.bottom {
-  width: 100%;
-  text-align: center;
-  margin: 40px 0;
-  padding: 200px 10px 100px;
-}
+
 
 .communityContainer /deep/ .el-loading-spinner {
   margin-top: 80px;
@@ -296,36 +350,44 @@ export default {
 }
 .container {
 
-    width: 500px;
+  width: 500px;
 
-    height: 50px;
+  height: 50px;
 
-    margin: 100px auto;
+  margin: 100px auto;
 
 }
 
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 14px;
-  opacity: 0.75;
-  line-height: 200px;
-  margin: 0;
+.el-carousel /deep/ .el-carousel__container {
+
 }
 
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n+1) {
-  background-color: #d3dce6;
-}
 #building{
-  background:url("../../assets/9.jpg");
+  background:		#FDF5E6;
+  opacity:0.9;
   width:100%;
   height:100%;
   position:fixed;
   background-size:100% 100%;
 }
 
+.bottom {
 
+  position: fixed;
+  bottom: 0;
+  height: 40px;
+  width: 100%;
+  text-align: center;
+
+}
+.msg-pagination-container.is-background .el-pager li {
+  /*对页数的样式进行修改*/
+  background-color: #10263c;
+  color: #FFF;
+}
+.nav{
+  background-image: url("../../assets/1111.png");
+  background-size:cover;
+  background-attachment:fixed;
+}
 </style>

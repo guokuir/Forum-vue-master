@@ -3,12 +3,12 @@
     <div class="top">
       <div class="userInfo">
         <div class="userAvatar" @click="gotoPersonal('post')">
-          <img :src=" require('../../assets/defaultAvatar.jpg')" alt=""/>
+          <img :src=" require('../../assets/用户.png')" alt=""/>
         </div>
       </div>
     </div>
     <div class="itemRight">
-      <div class="userName">{{userInfo.nickname}}</div>
+      <div class="userName">{{userInfo.name}}</div>
       <div class="email">{{ userInfo.email }}</div>
     </div>
 

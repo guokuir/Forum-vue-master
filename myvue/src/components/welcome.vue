@@ -2,10 +2,7 @@
   <body>
 
   <section class="nav">
-    <h1>FORUM</h1>
-    <h2>WELCOME </h2>
-    <h2>FREE WORD  ||  FREE WORLD</h2>
-
+    <img src="..//assets/sign.jpg">
   </section>
 
 
@@ -77,7 +74,7 @@ body {
 
 }
 .nav{
-  background-image: url("../assets/cloud.jpg");
+  background-image: url("../assets/1111.png");
   background-size:cover;
   background-attachment:fixed;
 }

@@ -38,7 +38,7 @@ export default new Router({
       name:'index',
       path:'/index',
       component:Index,
-      redirect:'/welcome',
+      redirect:'/homepageone',
       children:[
         {
           name:"welcome",

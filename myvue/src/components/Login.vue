@@ -1,11 +1,11 @@
 <template>
   <div class="login-register">
-<!--    contain为主容器-->
+    <!--    contain为主容器-->
     <div class="contain">
-<!--      big contain为主部件-->
-<!--      big-box为实现页面跳转，通过active和islogin实现-->
+      <!--      big contain为主部件-->
+      <!--      big-box为实现页面跳转，通过active和islogin实现-->
       <div class="big-box" :class="{active:isLogin}">
-<!--        登录处理-->
+        <!--        登录处理-->
         <div class="big-contain" v-if="isLogin">
           <div class="btitle">用户登录</div>
           <div class="bform">
@@ -18,21 +18,21 @@
           <button class="bbutton" @click="login">登录</button>
         </div>
 
-<!--注册处理-->
+        <!--注册处理-->
         <div class="big-contain" v-else>
           <div class="btitle">创建用户</div>
           <div class="bform">
             <input type="text" placeholder="用户名" v-model="form.username">
             <span class="errTips" v-if="existed">* 用户名已经存在！ *</span>
-<!--            <input type="email" placeholder="邮箱" v-model="form.useremail">-->
+            <!--            <input type="email" placeholder="邮箱" v-model="form.useremail">-->
             <input type="password" placeholder="密码" v-model="form.password">
-<!--            <input type="rePassword" placeholder="重新输入密码" v-model="rePassword">-->
-<!--            <div v-if="password !== rePassword">-->
-<!--              <p style="color: red">两次输入密码不统一</p>-->
-<!--            </div>-->
-<!--            <div v-else>-->
-<!--              <p style="color: lawngreen">valid</p>-->
-<!--            </div>-->
+            <!--            <input type="rePassword" placeholder="重新输入密码" v-model="rePassword">-->
+            <!--            <div v-if="password !== rePassword">-->
+            <!--              <p style="color: red">两次输入密码不统一</p>-->
+            <!--            </div>-->
+            <!--            <div v-else>-->
+            <!--              <p style="color: lawngreen">valid</p>-->
+            <!--            </div>-->
 
             <input type="password" placeholder="确认密码" v-model="rePassword" style="float: left">
             <el-checkbox v-model="form.rememberMe">是否记住此用户</el-checkbox>
@@ -45,20 +45,20 @@
             <div v-else></div>
           </div>
 
-            <button class="bbutton" @click="register" style="display: inline">注册</button>:
-            <button class="bbutton" @click="returnhome" style="display: inline">返回</button>
+          <button class="bbutton" @click="register" style="display: inline">注册</button>:
+          <button class="bbutton" @click="returnhome" style="display: inline">返回</button>
 
         </div>
-<!--        页面翻转-->
+        <!--        页面翻转-->
       </div>
       <div class="small-box" :class="{active:isLogin}">
         <div class="small-contain" v-if="isLogin">
-          <div class="stitle">欢迎光临校园论坛！</div>
+          <div class="stitle"></div>
           <p class="scontent">如果没有账号，请先注册</p>
           <button class="sbutton" @click="changeType">注册</button>
         </div>
         <div class="small-contain" v-else>
-          <div class="stitle">欢迎光临校园论坛！</div>
+          <div class="stitle"></div>
           <p class="scontent">若有账号，请立即登录</p>
           <button class="sbutton" @click="changeType">登录</button>
         </div>
@@ -113,14 +113,14 @@ export default{
         window.alert("填写不能为空！");
         // return;
       }
-      // else if(this.validID() === false){
-      //   window.alert("请输入正确的学号");
-      //   // return;
+        // else if(this.validID() === false){
+        //   window.alert("请输入正确的学号");
+        //   // return;
       // }
       else if(this.finiteLengthPassword()===false){
         window.alert("密码过长请重新输入");
       }
-        else {
+      else {
         self.$axios({
           method:'post',
           url: 'user/login',
@@ -129,24 +129,24 @@ export default{
             password: self.form.password
           }
         }).then( res => {
-           if(res.data.flag===true) {
-             console.log(res)
-             this.$notify.success('登录成功')
-             //alert(res.data.data.userId)
-             //保存静态变量id，以便后续识别是否登录
-             this.$store.commit("saveLocalid",res.data.data.userId)
-             this.$store.commit("saveToken",res.data.data.token)
-             localStorage.setItem('token', res.data.data.token)
-             //alert(self.$store.state.localid)
-             //此步为跳转，应该在登录后执行，先放在这
-             this.$router.push("/index")
-            }
-            else {
-             alert("登录失败！");
-             alert(res.data.message);
-             console.log(res)
-            }
-          })
+          if(res.data.flag===true) {
+            console.log(res)
+            this.$notify.success('登录成功')
+            //alert(res.data.data.userId)
+            //保存静态变量id，以便后续识别是否登录
+            this.$store.commit("saveLocalid",res.data.data.userId)
+            this.$store.commit("saveToken",res.data.data.token)
+            localStorage.setItem('token', res.data.data.token)
+            //alert(self.$store.state.localid)
+            //此步为跳转，应该在登录后执行，先放在这
+            this.$router.push("/index")
+          }
+          else {
+            alert("登录失败！");
+            alert(res.data.message);
+            console.log(res)
+          }
+        })
           .catch( err => {
             console.log(err);
           })
@@ -160,10 +160,10 @@ export default{
         //url一律要再次修改
         url:"/user"
       })
-      .then(result => {
-        //存储用户nickname
-        this.$store.commit("saveNickname",result.data.data.nickName)
-      })
+        .then(result => {
+          //存储用户nickname
+          this.$store.commit("saveNickname",result.data.data.nickName)
+        })
     },
     register(){
       const self = this;
@@ -173,9 +173,9 @@ export default{
         window.alert("请输入正确的用户名");
         // return;
       }
-      // else if(this.validEmail() === false){
-      //   window.alert("请输入正确的邮箱");
-      //   // return;
+        // else if(this.validEmail() === false){
+        //   window.alert("请输入正确的邮箱");
+        //   // return;
       // }
       else if(this.finiteLengthPassword()===false){
         window.alert("密码过长请重新输入");
@@ -191,7 +191,7 @@ export default{
       else if(self.form.username === "" && self.form.password === ""){
         window.alert("填写不能为空！");
       }
-  else{
+      else{
         //alert(this.form.id)
         self.$axios({
           method:'post',
@@ -202,7 +202,7 @@ export default{
           data: {
             username: self.form.username,
             //好像接口不用邮箱
-          //  useremail: self.form.useremail,
+            //  useremail: self.form.useremail,
             password: self.form.password
             //好像接口也没用这个
             //rememberMe:self.form.rememberMe
@@ -263,7 +263,7 @@ export default{
     //验证密码长度是否合法
     finiteLengthPassword(){
       if(this.form.username!=null) {
-          var length1 = this.form.username.length
+        var length1 = this.form.username.length
       }
       if(length1 >= 32) {
         alert("密码过长请重新输入");
@@ -321,7 +321,7 @@ export default{
 .btitle{
   font-size: 1.5em;
   font-weight: bold;
-  color: rgb(57,167,176);
+  color: #D2B48C;
 }
 .bform{
   width: 100%;
@@ -355,7 +355,7 @@ export default{
   border-radius: 24px;
   border: none;
   outline: none;
-  background-color: rgb(57,167,176);
+  background-color: #D2B48C;
   color: #fff;
   font-size: 0.9em;
   cursor: pointer;
@@ -363,7 +363,7 @@ export default{
 .small-box{
   width: 30%;
   height: 100%;
-  background: linear-gradient(135deg,rgb(57,167,176),rgb(56,183,145));
+  background: linear-gradient(#D2B48C,#DEB887);
   position: absolute;
   top: 0;
   left: 0;

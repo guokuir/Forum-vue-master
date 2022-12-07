@@ -1,152 +1,152 @@
 <template>
-  <!--用$route.params.postsId获得参数-->
-  <div class="articleDetailContainer">
-    <div class="articleDetail">
-      <div class="left">
-        <div class="card">
-          <img :src="require('../../assets/background.jpg')" alt="" class="coverImg"/>
-          <div class="leftContent">
-            <div class="title">
-              {{ postsTitle }}
-            </div>
-            <!-- 用户信息 -->
-            <div class="author">
-              <div class="authorAvatar">
-                <img class="avatar" :src="require('../../assets/1.jpg')" alt="" lazy
-                  fit="cover" @click="gotoPersonal(userId)"/>
+  <section class="nav">
+    <!--用$route.params.postsId获得参数-->
+    <div class="articleDetailContainer">
+      <div class="articleDetail">
+        <div class="left">
+          <div class="card">
+<!--            <img :src="require('../../assets/streamlinehq-translate-1-barcelona-400.png')" alt="" class="coverImg"/>-->
+            <div class="leftContent">
+              <div class="title">
+                {{ postsTitle }}
               </div>
-              <div class="authorName" @click="gotoPersonal(userId)">
-                {{ nickname }}
-              </div>
-              <div class="publishDate">
-                {{ updateTime }}
-                <div class="updatearticle" v-if="this.userId === this.thisId">
-                  <div class="fenge">|</div>
-                  <div @click="deleteCurrentArticle">删除文章</div>
+              <!-- 用户信息 -->
+              <div class="author">
+                <div class="authorAvatar">
+
+                </div>
+                <div class="authorName" @click="gotoPersonal(userId)">
+                  {{ nickname }}
+                </div>
+                <div class="publishDate">
+                  {{ updateTime }}
+                  <div class="updatearticle" v-if="this.userId === this.thisId">
+                    <div class="fenge">|</div>
+                    <div @click="deleteCurrentArticle">删除文章</div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!-- 文章内容 -->
-<!--          <markdown-it-vue class="md-body" :content="contents"/>-->
-          <div class="question_descrption" v-html="contents"/>
-          <div class="commentControl">
-            <div class="commentControlItem" @click="likeCurrentArticle()" v-if="isUserLike===false">
-              <i class="iconfont icon-dianzan"></i>
-              {{ "点赞"   + "  " + this.likes }}
+            <!-- 文章内容 -->
+  <!--          <markdown-it-vue class="md-body" :content="contents"/>-->
+            <div class="question_descrption" v-html="contents"/>
+            <div class="commentControl">
+              <div class="commentControlItem" @click="likeCurrentArticle()" v-if="isUserLike===false">
+                <i class="iconfont icon-dianzan"></i>
+                {{ "点赞"   + "  " + this.likes }}
+              </div>
+              <div class="commentControlItem" @click="dislikeCurrentArticle()" v-else>
+                <i class="iconfont icon-dianzan"></i>
+                {{ "已点赞" + "  " + this.likes }}
+              </div>
             </div>
-            <div class="commentControlItem" @click="dislikeCurrentArticle()" v-else>
-              <i class="iconfont icon-dianzan"></i>
-              {{ "已点赞" + "  " + this.likes }}
+          </div>
+
+          <div class="card leftContent commentArea">
+            <!-- 评论区 -->
+            <div class="commentArea">
+              <div class="commentText">
+                回答区 ({{ this.floorList.length ? this.floorList.length : 0 }})
+              </div>
+              <div class="commentInput">
+                <el-input type="textarea"
+                  class="commentTextArea"
+                  maxlength="140"
+                  show-word-limit
+                  v-model="newCommentData.content"
+                  placeholder="留下你的评论"
+                ></el-input>
+                <div class="submitCommentButton">
+                  <el-button size="mini" round @click="submitComment"
+                    class="submitComment" type="primary">评论
+                  </el-button>
+                </div>
+              </div>
+
+              <div class="commentItem" v-for="(item, index) in floorList" :key="index">
+                <div class="commentItemContainer">
+                  <div class="commentItemArea">
+                    <div class="userAvatar">
+                      <img class="avatar" :src="require('../../assets/用户 (1).png') " alt=""/>
+                    </div>
+                    <div class="commentInfo">
+                      <div class="author userInfo">
+                        <div class="authorName userNickName"
+                          @click="gotoPersonal(item.floorId)">
+                          {{ item.nickname }}
+                        </div>
+                      </div>
+                      <div class="commentContent" v-html="item.content">
+                        {{ item.content }}
+                      </div>
+                      <!-- 楼层控制区 -->
+                      <div class="commentContorl">
+                        <div class="publishDate commentDate">
+                          {{ item.createTime }}
+                        </div>
+                        <div class="commentContorlArea">
+                          <div class="commentContorlItem checkReply"
+                               v-if="item.commentList.length === 0">
+                          </div>
+                          <div class="commentContorlItem" @click="unlikeFloor(item.floorId,index)" v-if=item.likes>
+                            <i class="el-icon-star-on"> {{ item.likes }}</i>
+                          </div>
+                          <div class="commentContorlItem" @click="likeFloor(item.floorId,index)" v-else>
+                            <i class="el-icon-star-off"> {{ item.likes }}</i>
+                          </div>
+                          <div class="commentContorlItem"
+                            @click="replyCurrentComment(item.floorId,item.nickname,1)">
+                            <i class="el-icon-chat-dot-round"></i>
+                          </div>
+                          <div v-if="item.userId === thisId || isAdmin"
+                            class="commentContorlItem"
+                            @click="deleteCurrentCommentFloor(item.floorId)">
+                            <i class="el-icon-delete-solid"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--楼层评论-->
+                  <div class="floorComment" v-if="item.commentList[0] && item.commentList[0].commentId">
+                    <div class="floorCommentItemContainer"
+                      v-for="(i, idx) in item.commentList"
+                      :key="idx">
+                      <div class="floorCommentItem">
+                        <div class="floorCommentUser"
+                          @click="gotoPersonal(i.userId)">
+                          {{ i.nickname }}:&nbsp;
+                        </div>
+                        <div class="floorCommentContent" v-html="i.content">
+
+                        </div>
+                        <div class="replyBtn">
+                          <div class="" @click="replyCurrentComment(i.commentId,i.commentUserNickName,index)">
+                            回复
+                          </div>
+                        </div>
+                        <div class="delBtn">
+                          <div v-if="i.userId === thisId || isAdmin" @click="deleteCurrentComment(i.commentId)">
+                            删除
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-
-        <div class="card leftContent commentArea">
-          <!-- 评论区 -->
-          <div class="commentArea">
-            <div class="commentText">
-              评论区 ({{ this.floorList.length ? this.floorList.length : 0 }})
-            </div>
-            <div class="commentInput">
-              <el-input type="textarea"
-                class="commentTextArea"
-                maxlength="140"
-                show-word-limit
-                v-model="newCommentData.content"
-                placeholder="留下你的评论"
-              ></el-input>
-              <div class="submitCommentButton">
-                <el-button size="mini" round @click="submitComment"
-                  class="submitComment" type="primary">评论
-                </el-button>
-              </div>
-            </div>
-
-            <div class="commentItem" v-for="(item, index) in floorList" :key="index">
-              <div class="commentItemContainer">
-                <div class="commentItemArea">
-                  <div class="userAvatar">
-                    <img class="avatar" :src="require('../../assets/defaultAvatar.jpg') " alt=""/>
-                  </div>
-                  <div class="commentInfo">
-                    <div class="author userInfo">
-                      <div class="authorName userNickName"
-                        @click="gotoPersonal(item.floorId)">
-                        {{ item.nickname }}
-                      </div>
-                    </div>
-                    <div class="commentContent">
-                      {{ item.content }}
-                    </div>
-                    <!-- 楼层控制区 -->
-                    <div class="commentContorl">
-                      <div class="publishDate commentDate">
-                        {{ item.createTime }}
-                      </div>
-                      <div class="commentContorlArea">
-                        <div class="commentContorlItem checkReply"
-                             v-if="item.commentList.length === 0">
-                        </div>
-                        <div class="commentContorlItem" @click="unlikeFloor(item.floorId,index)" v-if=item.likes>
-                          <i class="el-icon-star-on"> {{ item.likes }}</i>
-                        </div>
-                        <div class="commentContorlItem" @click="likeFloor(item.floorId,index)" v-else>
-                          <i class="el-icon-star-off"> {{ item.likes }}</i>
-                        </div>
-                        <div class="commentContorlItem"
-                          @click="replyCurrentComment(item.floorId,item.nickname,1)">
-                          <i class="el-icon-chat-dot-round"></i>
-                        </div>
-                        <div v-if="item.userId === thisId || isAdmin"
-                          class="commentContorlItem"
-                          @click="deleteCurrentCommentFloor(item.floorId)">
-                          <i class="el-icon-delete-solid"></i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!--楼层评论-->
-                <div class="floorComment" v-if="item.commentList[0] && item.commentList[0].commentId">
-                  <div class="floorCommentItemContainer"
-                    v-for="(i, idx) in item.commentList"
-                    :key="idx">
-                    <div class="floorCommentItem">
-                      <div class="floorCommentUser"
-                        @click="gotoPersonal(i.userId)">
-                        {{ i.nickname }}:&nbsp;
-                      </div>
-                      <div class="floorCommentContent">
-                        {{ i.content }}
-                      </div>
-                      <div class="replyBtn">
-                        <div class="" @click="replyCurrentComment(i.commentId,i.commentUserNickName,index)">
-                          回复
-                        </div>
-                      </div>
-                      <div class="delBtn">
-                        <div v-if="i.userId === thisId || isAdmin" @click="deleteCurrentComment(i.commentId)">
-                          删除
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="right">
+          <!-- 用户信息卡片 -->
+          <user-info-card :userId="thisId"></user-info-card>
         </div>
       </div>
-      <div class="right">
-        <!-- 用户信息卡片 -->
-        <user-info-card :userId="thisId"></user-info-card>
-      </div>
+      <GoTop></GoTop>
     </div>
-    <GoTop></GoTop>
-  </div>
-
+  </section>
 </template>
 
 <script>
@@ -860,5 +860,18 @@ export default {
 
 .commentInput {
   margin-bottom: 20px;
+}
+#building{
+  background:		#FDF5E6;
+  opacity:0.9;
+  width:100%;
+  height:100%;
+  position:fixed;
+  background-size:100% 100%;
+}
+.nav{
+  background-image: url("../../assets/1111.png");
+  background-size:cover;
+  background-attachment:fixed;
 }
 </style>

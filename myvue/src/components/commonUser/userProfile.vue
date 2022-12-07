@@ -7,7 +7,7 @@
       <el-row :gutter="10">
         <el-col :span="2">
           <div style="background-color:#FFEBCD;width:60px;height:60px;display:inline-block;border-radius:50%;overflow:hidden;">
-            <el-image :src="src" style="width:60px;height:60px;"></el-image>
+            <el-image :src="require('../../assets/用户.png')" style="width:60px;height:60px;"></el-image>
           </div>
           <div style="margin-top:5px;margin-left:6px;"><span>{{formLabelAlign.realName}}</span></div>
           <div style="margin-top:50px;margin-left:1px;"><el-button style="font-size:15px;color:#4D4D4D;"  @click="infomationClick()">个人信息<span style="color:#B0E0E6;" v-show="infomationShow" class="el-icon-s-promotion"></span></el-button></div>
@@ -25,18 +25,18 @@
             <el-card style="margin-top: 30px; margin-left: 70px;">
               <el-row>
                 <el-col :span="10">
-                  <el-row :gutter="12" style="margin-top:20px;">
+<!--                  <el-row :gutter="12" style="margin-top:20px;">
                     <el-col :span="8"><div style="text-align:left;"><span>用户名：</span></div></el-col>
-                    <el-col :span="10">{{formLabelAlign.nickName}}</el-col>
-                  </el-row>
+                    <el-col :span="10">{{formLabelAlign.name}}</el-col>
+                  </el-row>-->
 
-                  <el-row :gutter="12" style="margin-top:20px;">
+<!--                  <el-row :gutter="12" style="margin-top:20px;">
                     <el-col :span="8"><div style="text-align:left;"><span>性别：</span></div></el-col>
                     <el-col :span="10">
                       <div v-if="formLabelAlign.gender===1">女</div>
                       <div v-else>男</div>
                     </el-col>
-                  </el-row>
+                  </el-row>-->
 
                   <el-row :gutter="12" style="margin-top:30px;">
                     <el-col :span="8"><div style="text-align:left;"><span>论坛等级：{{formLabelAlign.level}}</span></div></el-col>
@@ -44,10 +44,12 @@
                     <el-col :span="8">获赞数：{{formLabelAlign.likes}}</el-col>
                   </el-row>
 
+<!--
                   <el-row :gutter="12" style="margin-top:30px;">
                     <el-col :span="8"><div style="text-align:left;"><span>学院：</span></div></el-col>
                     <el-col :span="8">{{formLabelAlign.college}}</el-col>
                   </el-row>
+-->
 
                   <el-row :gutter="12" style="margin-top:30px;">
                     <el-col :span="8"><div style="text-align:left;"><span>手机号：</span></div></el-col>
@@ -57,10 +59,10 @@
                     <el-col :span="8"><div style="text-align:left;"><span>电子邮箱：</span></div></el-col>
                     <el-col :span="8">{{formLabelAlign.email}}</el-col>
                   </el-row>
-                  <el-row :gutter="12" style="margin-top:30px;">
+<!--                  <el-row :gutter="12" style="margin-top:30px;">
                     <el-col :span="8"><div style="text-align:left;"><span>生日：</span></div></el-col>
                     <el-col :span="8">{{formLabelAlign.birthday}}</el-col>
-                  </el-row>
+                  </el-row-->>
                   <el-row :gutter="12" style="margin-top:30px;">
                     <el-col :span="8"><div style="text-align:left;"><span>介绍：</span></div></el-col>
                     <el-col :span="8">{{formLabelAlign.introduction}}</el-col>
@@ -191,6 +193,7 @@ export default {
       labelPosition: 'right',
       formLabelAlign: {
         id:this.$store.state.localid,
+
         realName:'',
         nickName:'',
         level:'',

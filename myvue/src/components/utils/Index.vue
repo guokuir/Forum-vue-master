@@ -5,7 +5,7 @@
     <el-header>
       <div>
         <a href="/">
-          <el-image :src="require('../../assets/zstu-logo.png')" style="height: 100%">
+          <el-image :src="require('../../assets/雪人2.png')" style="height: 100%">
           </el-image>
         </a>
       </div>
@@ -14,8 +14,8 @@
        <el-menu  class="el-menu-demo"
                  mode="horizontal"
                  @select="handleSelect"
-                 background-color="#102f6d" text-color="#fff"
-                 active-text-color="#ffd04b"
+                 background-color="#D2B48C" text-color="#fff"
+                 active-text-color="#8B4513"
                  :router="true">
 
 
@@ -216,7 +216,7 @@ export default {
   padding: 0;
 }
 .el-header{
-  background-color: #102f6d;
+  background-color: #D2B48C;
 
   display: flex;
   justify-content: space-between;
@@ -234,7 +234,7 @@ export default {
   height: 100%;
 }
 .el-button{
-  background: #102f6d;
+  background: #DEB887;
   width: 100px;
   border: none;
   font-size: 15px;

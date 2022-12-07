@@ -2,14 +2,14 @@
   <div class="root">
     <!--      侧边栏-->
   <el-container>
-  <el-aside width="240px" style="z-index:1">
+  <el-aside width="350px" style="z-index:1">
     <el-col :span="20">
       <el-menu
         default-active="1"
         class="el-menu-vertical-demo"
         background-color="Transparent"
         text-color="#000000"
-        active-text-color="T#67C23A"
+        active-text-color="#67C23A"
         :router="true">
         <!--侧边栏以index属性路由跳转-->
         <el-menu-item>
@@ -20,22 +20,23 @@
           </span>
         </el-menu-item>
 
-        <el-submenu index="2">
-          <template slot="title">
+        <el-menu-item v-for="item in this.$store.state.homepageClass" :key="item.typeId" @click="postManagementClick(item.typeId)">
+          <i class="el-icon-document-copy"/>
+          <span @click="userManagementClick()">
             帖子管理
-            <span style="color:#B0E0E6;" v-show="postManagementShow" class="el-icon-s-tools"></span>
-          </template>
-          <el-menu-item v-for="item in this.$store.state.homepageClass" :key="item.typeId" @click="postManagementClick(item.typeId)">
-            {{item.home}}
-          </el-menu-item>
-        </el-submenu>
+            <span style="color:#B0E0E6;" v-show="userManagementShow" class="el-icon-document-copy"></span>
+          </span>
+<!--          {{item.home}}-->
+        </el-menu-item>
 
         <hr>
         <div display="flex">
           <el-input v-model="keyWord" placeholder="输入关键词以筛选记录"/>
-          <el-button type="primary" icon="el-icon-search" @click="keyWordSearch()">关键词筛选</el-button>
           <br>
-          <el-button type="primary" icon="el-icon-delete" @click="clearKeyWord()"/>
+          <br>
+          <el-button type="warning" icon="el-icon-search" circle></el-button>
+          <br>
+<!--          <el-button type="primary" icon="el-icon-delete" @click="clearKeyWord()"/>-->
         </div>
         <hr>
 
@@ -52,13 +53,12 @@
               <i class="el-icon-user"></i>
               id: {{item.userId}} &nbsp;
               用户名: {{item.username}} &nbsp;
-              生日:{{item.birthday}}  &nbsp;
-              论坛等级:{{item.level}}
+              发帖数:{{ item.published }}
             </div>
             <div class="ItemCenter">
               <div class="replyCount">
                 <i class="iconfont icon-kuaisuhuifu"></i>
-                发帖数:{{ item.published }}
+
               </div>
             </div>
           </div>
@@ -441,9 +441,13 @@ export default {
 }
 
 .bottom {
+
+  position: fixed;
+  bottom: 0;
+  height: 40px;
   width: 100%;
   text-align: center;
-  margin: 40px 0;
+
 }
 
 .communityContainer /deep/ .el-loading-spinner {
@@ -455,5 +459,10 @@ export default {
   margin-top: 20vh;
   color: #666;
   letter-spacing: 1px;
+}
+.nav{
+  background-image: url("../../assets/1111.png");
+  background-size:cover;
+  background-attachment:fixed;
 }
 </style>

@@ -7,11 +7,11 @@
       <el-row :gutter="10">
         <el-col :span="2">
           <div style="background-color:#FFEBCD;width:60px;height:60px;display:inline-block;border-radius:50%;overflow:hidden;">
-            <el-image :src="src" style="width:60px;height:60px;"></el-image>
+            <el-image :src="require('../../assets/用户.png')" style="width:60px;height:60px;"></el-image>
           </div>
           <div style="margin-top:5px;margin-left:6px;"><span>{{nickname}}</span></div>
           <div style="margin-top:50px;margin-left:1px;"><el-button type="text" style="font-size:15px;color:#4D4D4D;"  @click="infomationClick()">个人信息<span style="color:#B0E0E6;" v-show="infomationShow" class="el-icon-s-promotion"></span></el-button></div>
-<!--          <div style="margin-top:5px;margin-left:1px;"><el-button @click="resetUserProfile()">修改信息<span style="color:#B0E0E6;" class="el-icon-s-promotion"></span></el-button></div>-->
+          <!--          <div style="margin-top:5px;margin-left:1px;"><el-button @click="resetUserProfile()">修改信息<span style="color:#B0E0E6;" class="el-icon-s-promotion"></span></el-button></div>-->
         </el-col>
 
         <el-col :span="21">
@@ -24,25 +24,25 @@
             <el-card style="margin-top:30px;">
               <el-row>
                 <el-col :span="6">
-                  <el-row :gutter="12" style="margin-top:20px;">
+<!--                  <el-row :gutter="12" style="margin-top:20px;">
                     <el-col :span="8"><div style="text-align:right;"><span>用户名：</span></div></el-col>
                     <el-col :span="16">{{nickname}}</el-col>
-                  </el-row>
+                  </el-row> -->
                   <el-row :gutter="12" style="margin-top:30px;">
                     <el-col :span="8"><div style="text-align:right;"><span>手机号：</span></div></el-col>
                     <el-col :span="16">{{this.phone}}</el-col>
                   </el-row>
-                  <el-row :gutter="12" style="margin-top:30px;">
+<!--                  <el-row :gutter="12" style="margin-top:30px;">
                     <el-col :span="8"><div style="text-align:right;"><span>学院：</span></div></el-col>
                     <el-col :span="16">{{this.college}}</el-col>
                   </el-row>
                   <el-row :gutter="12" style="margin-top:30px;">
                     <el-col :span="8"><div style="text-align:right;"><span>生日：</span></div></el-col>
                     <el-col :span="16">{{this.birthday}}</el-col>
-                  </el-row>
+                  </el-row>-->
                   <el-row :gutter="12" style="margin-top:30px;">
-                    <el-col :span="15"><div style="text-align:right;"><span>介绍：</span></div></el-col>
-                    <el-col :span="30">{{this.introduction}}</el-col>
+                    <el-col :span="8"><div style="text-align:right;"><span>介绍：</span></div></el-col>
+                    <el-col :span="16">{{this.introduction}}</el-col>
                   </el-row>
                 </el-col>
 
@@ -50,70 +50,70 @@
             </el-card>
           </el-row>
           <!-- 修改密码 -->
-      <!--          <el-row v-show="passwordShow">-->
-      <!--            <el-card style="margin-top:30px;">-->
-      <!--              <el-form :model="personalForm">-->
-      <!--                <el-row :gutter="12" style="margin-top:20px;">-->
-      <!--                  <el-col :span="6">-->
-      <!--                    <div style="text-align:right;"><span>账号：</span></div>-->
-      <!--                  </el-col>-->
-      <!--                  <el-col :span="5">-->
-      <!--                    <el-form-item prop="account">-->
-      <!--                      <el-input type="text" v-model="personalForm.account" placeholder="请输入您的账号" ></el-input>-->
-      <!--                    </el-form-item>-->
-      <!--                  </el-col>-->
-      <!--                </el-row>-->
-      <!--                <el-row :gutter="12" style="margin-top:1px;">-->
-      <!--                  <el-col :span="6">-->
-      <!--                    <div style="text-align:right;"><span>手机号：</span></div>-->
-      <!--                  </el-col>-->
-      <!--                  <el-col :span="5">-->
-      <!--                    <el-form-item prop="phone_num">-->
-      <!--                      <el-input type="text" v-model="personalForm.phone_num" placeholder="绑定的手机号" ></el-input>-->
-      <!--                    </el-form-item>-->
-      <!--                  </el-col>-->
-      <!--                </el-row>-->
-      <!--                <el-row :gutter="12" style="margin-top:1px;">-->
-      <!--                  <el-col :span="6">-->
-      <!--                    <div style="text-align:right;"><span>密码：</span></div>-->
-      <!--                  </el-col>-->
-      <!--                  <el-col :span="5">-->
-      <!--                    <el-form-item prop="password1">-->
-      <!--                      <el-input type="password" show-password v-model="personalForm.password1" placeholder="请输入新的密码" ></el-input>-->
-      <!--                    </el-form-item>-->
-      <!--                  </el-col>-->
-      <!--                </el-row>-->
-      <!--                <el-row :gutter="12" style="margin-top:1px;">-->
-      <!--                  <el-col :span="6">-->
-      <!--                    <div style="text-align:right;"><span>确认密码：</span></div>-->
-      <!--                  </el-col>-->
-      <!--                  <el-col :span="5">-->
-      <!--                    <el-form-item prop="password2">-->
-      <!--                      <el-input type="password" show-password v-model="personalForm.password2" placeholder="请再次输入新的密码" ></el-input>-->
-      <!--                    </el-form-item>-->
-      <!--                  </el-col>-->
-      <!--                </el-row>-->
-      <!--                <el-row :gutter="12" style="margin-top:1px;">-->
-      <!--                  <el-col :span="6">-->
-      <!--                    <div style="text-align:right;"><span>验证码：</span></div>-->
-      <!--                  </el-col>-->
-      <!--                  <el-col :span="5">-->
-      <!--                    <el-form-item prop="verification">-->
-      <!--                      <el-input type="text" v-model="personalForm.verification" placeholder="验证码" ></el-input>-->
-      <!--                    </el-form-item>-->
-      <!--                  </el-col>-->
-      <!--                  <el-col :span="2">-->
-      <!--                    <el-button type="primary" plain round size="medium" @click="sendMsg()" :disabled="isDisabled">{{ buttonName }}</el-button>-->
-      <!--                  </el-col>-->
-      <!--                </el-row>-->
-      <!--                <el-row :gutter="12" style="margin-top:10px;">-->
-      <!--                  <el-col :span="17" style="text-align:center;">-->
-      <!--                    <el-button type="primary" plain round size="medium" @click="submit()">修改</el-button>-->
-      <!--                  </el-col>-->
-      <!--                </el-row>-->
-      <!--              </el-form>-->
-      <!--            </el-card>-->
-      <!--          </el-row>-->
+          <!--          <el-row v-show="passwordShow">-->
+          <!--            <el-card style="margin-top:30px;">-->
+          <!--              <el-form :model="personalForm">-->
+          <!--                <el-row :gutter="12" style="margin-top:20px;">-->
+          <!--                  <el-col :span="6">-->
+          <!--                    <div style="text-align:right;"><span>账号：</span></div>-->
+          <!--                  </el-col>-->
+          <!--                  <el-col :span="5">-->
+          <!--                    <el-form-item prop="account">-->
+          <!--                      <el-input type="text" v-model="personalForm.account" placeholder="请输入您的账号" ></el-input>-->
+          <!--                    </el-form-item>-->
+          <!--                  </el-col>-->
+          <!--                </el-row>-->
+          <!--                <el-row :gutter="12" style="margin-top:1px;">-->
+          <!--                  <el-col :span="6">-->
+          <!--                    <div style="text-align:right;"><span>手机号：</span></div>-->
+          <!--                  </el-col>-->
+          <!--                  <el-col :span="5">-->
+          <!--                    <el-form-item prop="phone_num">-->
+          <!--                      <el-input type="text" v-model="personalForm.phone_num" placeholder="绑定的手机号" ></el-input>-->
+          <!--                    </el-form-item>-->
+          <!--                  </el-col>-->
+          <!--                </el-row>-->
+          <!--                <el-row :gutter="12" style="margin-top:1px;">-->
+          <!--                  <el-col :span="6">-->
+          <!--                    <div style="text-align:right;"><span>密码：</span></div>-->
+          <!--                  </el-col>-->
+          <!--                  <el-col :span="5">-->
+          <!--                    <el-form-item prop="password1">-->
+          <!--                      <el-input type="password" show-password v-model="personalForm.password1" placeholder="请输入新的密码" ></el-input>-->
+          <!--                    </el-form-item>-->
+          <!--                  </el-col>-->
+          <!--                </el-row>-->
+          <!--                <el-row :gutter="12" style="margin-top:1px;">-->
+          <!--                  <el-col :span="6">-->
+          <!--                    <div style="text-align:right;"><span>确认密码：</span></div>-->
+          <!--                  </el-col>-->
+          <!--                  <el-col :span="5">-->
+          <!--                    <el-form-item prop="password2">-->
+          <!--                      <el-input type="password" show-password v-model="personalForm.password2" placeholder="请再次输入新的密码" ></el-input>-->
+          <!--                    </el-form-item>-->
+          <!--                  </el-col>-->
+          <!--                </el-row>-->
+          <!--                <el-row :gutter="12" style="margin-top:1px;">-->
+          <!--                  <el-col :span="6">-->
+          <!--                    <div style="text-align:right;"><span>验证码：</span></div>-->
+          <!--                  </el-col>-->
+          <!--                  <el-col :span="5">-->
+          <!--                    <el-form-item prop="verification">-->
+          <!--                      <el-input type="text" v-model="personalForm.verification" placeholder="验证码" ></el-input>-->
+          <!--                    </el-form-item>-->
+          <!--                  </el-col>-->
+          <!--                  <el-col :span="2">-->
+          <!--                    <el-button type="primary" plain round size="medium" @click="sendMsg()" :disabled="isDisabled">{{ buttonName }}</el-button>-->
+          <!--                  </el-col>-->
+          <!--                </el-row>-->
+          <!--                <el-row :gutter="12" style="margin-top:10px;">-->
+          <!--                  <el-col :span="17" style="text-align:center;">-->
+          <!--                    <el-button type="primary" plain round size="medium" @click="submit()">修改</el-button>-->
+          <!--                  </el-col>-->
+          <!--                </el-row>-->
+          <!--              </el-form>-->
+          <!--            </el-card>-->
+          <!--          </el-row>-->
         </el-col>
       </el-row>
     </div>
@@ -146,7 +146,7 @@ export default {
       gender:"",
       level:'',
       likes:"",
-      nickname:"",
+      nickname:this.$route.params.uesername,
       phone:"",
       points:"",
       published:"",
@@ -154,7 +154,7 @@ export default {
       visits:"",
       introduction:""
     }
-    },
+  },
   created() {
     this.getInfos()
   },
@@ -363,7 +363,7 @@ export default {
   width: 83%;
 }
 
- .name{ text-align: right; }
+.name{ text-align: right; }
 .value{ text-align: left; }
 
 
