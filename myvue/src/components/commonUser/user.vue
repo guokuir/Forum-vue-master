@@ -11,16 +11,16 @@
     <el-form-item label="uid">
       <el-input v-model="formLabelAlign.id" type="text" :disabled="true"></el-input>
     </el-form-item>
-    <el-form-item label="年级">
+<!--    <el-form-item label="年级">
       <el-input v-model="formLabelAlign.gender" type="text"></el-input>
-    </el-form-item>
+    </el-form-item>-->
 <!--    <el-form-item label="真实姓名" prop="name" >-->
 <!--      <el-input v-model="formLabelAlign.realName" type="text" placeholder="输入本人真实姓名"></el-input>-->
 <!--    </el-form-item>-->
-    <el-form-item label="网名" >
+<!--    <el-form-item label="网名" >
       <el-input v-model="formLabelAlign.nickName" type="text" ></el-input>
-    </el-form-item>
-    <el-form-item label="性别" >
+    </el-form-item>-->
+<!--    <el-form-item label="性别" >
       <el-select v-model="formLabelAlign.gender">
         <el-option label="男" value="男"></el-option>
         <el-option label="女" value="女"></el-option>
@@ -47,18 +47,18 @@
         <el-option label="微电子学院" value="微电子学院"></el-option>
         <el-option label="生态环境学院" value="生态环境学院"></el-option>
       </el-select>
-    </el-form-item>
+    </el-form-item>-->
     <el-form-item label="手机号" prop="number" >
       <el-input v-model="formLabelAlign.phoneNumber" type="text" placeholder="输入11位手机号"></el-input>
     </el-form-item>
     <el-form-item label="邮箱"  >
       <el-input v-model="formLabelAlign.email" type="text" placeholder="输入邮箱"></el-input>
     </el-form-item>
-    <el-form-item label="生日" required>
+<!--    <el-form-item label="生日" required>
         <el-form-item prop="date1">
           <el-date-picker type="date" placeholder="选择日期" v-model="formLabelAlign.birthday" style="width: 100%;"></el-date-picker>
         </el-form-item>
-      </el-form-item>
+      </el-form-item>-->
       <el-form-item label="介绍">
         <el-input
           type="textarea"

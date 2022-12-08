@@ -10,8 +10,8 @@
           <div class="btitle">用户登录</div>
           <div class="bform">
 
-            <input type="text" placeholder="用户名" v-model="form.username">
-            <span class="errTips" v-if="usernameError">* 用户名填写错误 *</span>
+            <input type="text" placeholder="账号" v-model="form.userId">
+            <span class="errTips" v-if="useridError">* 账号填写错误 *</span>
             <input type="password" placeholder="密码" v-model="form.password">
             <span class="errTips" v-if="passwordError">* 密码填写错误 *</span>
           </div>
@@ -76,7 +76,7 @@ export default{
   data(){
     return {
       isLogin:true,
-      usernameError: false,
+      useridError: false,
       passwordError: false,
       existed: false,
       rePasswordError:false,
@@ -84,6 +84,7 @@ export default{
       token:'',
       uid:'',
       form:{
+        userId:'',
         username:'',
         useremail:'',
         password:'',
@@ -100,6 +101,7 @@ export default{
   methods:{
     changeType() {
       this.isLogin = !this.isLogin
+      this.form.userId=''
       this.form.username = ''
       this.form.useremail = ''
       this.form.password = ''
@@ -109,14 +111,11 @@ export default{
     },
     login() {
       const self = this;
-      if (self.form.username === "" && self.form.password === "") {
+      if (self.form.userId === -1 && self.form.password === "") {
         window.alert("填写不能为空！");
         // return;
       }
-        // else if(this.validID() === false){
-        //   window.alert("请输入正确的学号");
-        //   // return;
-      // }
+
       else if(this.finiteLengthPassword()===false){
         window.alert("密码过长请重新输入");
       }
@@ -125,8 +124,8 @@ export default{
           method:'post',
           url: 'user/login',
           data: {
-            username: self.form.username,
-            password: self.form.password
+            userId:self.form.userId,
+            password:self.form.password
           }
         }).then( res => {
           if(res.data.flag===true) {

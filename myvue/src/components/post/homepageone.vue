@@ -157,10 +157,22 @@ export default {
       this.keyWord='';
     },
     loadAll() {
-      return [
-        { "value": "三全鲜食（北新泾店）", "address": "长宁区新渔路144号" },
-        { "value": "Hot honey 首尔炸鸡（仙霞路）", "address": "上海市长宁区淞虹路661号" }
-      ];
+      const self = this
+      self.$axios({
+        method: 'get',
+        url: "/post/getRandom"
+      }).then(res => {
+        if (res.data.flag === true) {
+          console.log(res)
+          this.restaurants=[]
+          for(let item in res.data.data.records){
+            this.restaurants.push({"value":res.data.data.records[item].title.toString()})
+            // console.log(res.data.data.records[item].title)
+          }
+        } else {
+
+        }
+      })
     },
     querySearchAsync(queryString, cb) {
       var restaurants = this.restaurants;
@@ -181,7 +193,7 @@ export default {
     }
   },
   mounted() {
-    this.restaurants = this.loadAll();
+    this.loadAll()
   }
 
 

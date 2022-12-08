@@ -24,7 +24,7 @@
           <i class="el-icon-document-copy"/>
           <span @click="userManagementClick()">
             帖子管理
-            <span style="color:#B0E0E6;" v-show="userManagementShow" class="el-icon-document-copy"></span>
+            <span style="color:#B0E0E6;" v-show="postManagementShow" class="el-icon-document-copy"></span>
           </span>
 <!--          {{item.home}}-->
         </el-menu-item>
@@ -84,7 +84,7 @@
             </div>
           </div>
           <div class="ItemCenter">
-            <div class="title">{{ item.title }}</div>
+            <div class="title" v-html="item.title"></div>
             <div class="publishDate">
               {{ item.updateTime}}
             </div>
@@ -139,7 +139,6 @@ export default {
       keyWord:'',
       //文章管理相关
       postsList:[],
-      category:1,
       page:1,
       eachPage:'',
       pagination:'',
@@ -164,7 +163,6 @@ export default {
     postManagementClick(id){
       this.userManagementShow=false;
       this.postManagementShow=true;
-      this.category=id;
       this.page=1;
       this.changePage(1);
     },
@@ -196,7 +194,7 @@ export default {
       const self = this;
       self.$axios({
         method:'get',
-        url:'/post/posts?keyword='+this.keyWord+'&userId&category='+this.category +'&size=5&page='+this.page+'&order=1'
+        url:'/post/posts?keyword='+this.keyWord+'&size=5&page='+this.page+'&order=1'
       }).then(res=>{
         // console.log(res)
         if(res.data.flag===true) {
