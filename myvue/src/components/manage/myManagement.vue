@@ -1,60 +1,68 @@
 <template>
   <div class="root">
     <!--      侧边栏-->
-  <el-container>
-  <el-aside width="350px" style="z-index:1">
-    <el-col :span="20">
-      <el-menu
-        default-active="1"
-        class="el-menu-vertical-demo"
-        background-color="Transparent"
-        text-color="#000000"
-        active-text-color="#67C23A"
-        :router="true">
-        <!--侧边栏以index属性路由跳转-->
-        <el-menu-item>
-          <i class="el-icon-user"/>
-          <span @click="userManagementClick()">
-            用户管理
-            <span style="color:#B0E0E6;" v-show="userManagementShow" class="el-icon-s-tools"></span>
-          </span>
-        </el-menu-item>
+    <el-container>
+      <el-aside width="350px" style="z-index:1">
+        <el-col :span="20">
+          <el-menu
+            default-active="1"
+            class="el-menu-vertical-demo"
+            background-color="Transparent"
+            text-color="#000000"
+            active-text-color="#67C23A"
+            :router="true">
+            <!--侧边栏以index属性路由跳转-->
 
-        <el-menu-item v-for="item in this.$store.state.homepageClass" :key="item.typeId" @click="postManagementClick(item.typeId)">
-          <i class="el-icon-document-copy"/>
-          <span @click="postManagementClick()">
+
+            <el-menu-item v-for="item in this.$store.state.homepageClass" :key="item.typeId" @click="postManagementClick(item.typeId)">
+              <i class="el-icon-document-copy"/>
+              <span @click="postManagementClick()">
             帖子管理
             <span style="color:#B0E0E6;" v-show="postManagementShow" class="el-icon-document-copy"></span>
           </span>
-<!--          {{item.home}}-->
-        </el-menu-item>
+              <!--          {{item.home}}-->
+            </el-menu-item>
+            <el-menu-item>
+              <i class="el-icon-user"/>
+              <span @click="userManagementClick()">
+            楼层管理
+            <span style="color:#B0E0E6;" v-show="userManagementShow" class="el-icon-s-tools"></span>
+          </span>
+            </el-menu-item>
+            <el-menu-item>
+              <i class="el-icon-user"/>
+              <span @click="sonMangementClick()">
+            子评论管理
+            <span style="color:#B0E0E6;" v-show="sonManagementShow" class="el-icon-s-tools"></span>
+          </span>
+            </el-menu-item>
+            <hr>
+            <div display="flex">
+              <el-input v-model="keyWord" placeholder="输入关键词以筛选记录"/>
+              <br>
+              <br>
+              <el-button type="warning" icon="el-icon-search" circle @click="changePage(1)"></el-button>
+              <br>
+              <!--          <el-button type="primary" icon="el-icon-delete" @click="clearKeyWord()"/>-->
+            </div>
+            <hr>
 
-        <hr>
-        <div display="flex">
-          <el-input v-model="keyWord" placeholder="输入关键词以筛选记录"/>
-          <br>
-          <br>
-          <el-button type="warning" icon="el-icon-search" circle @click="changePage(1)"></el-button>
-          <br>
-<!--          <el-button type="primary" icon="el-icon-delete" @click="clearKeyWord()"/>-->
-        </div>
-        <hr>
-
-      </el-menu>
-    </el-col></el-aside>
-  </el-container>
+          </el-menu>
+        </el-col></el-aside>
+    </el-container>
 
     <div class="managementPage" style="z-index:0">
-<!--      用户管理页面-->
+      <!--      楼层管理页面-->
       <div class="article" v-show="userManagementShow">
         <div class="userItem" v-for="(item, index) in userList" :key="index">
           <div class="post-block-code">
             <div>
-              <i class="el-icon-user"></i>
-              id: {{item.userId}} &nbsp;
-              用户名: {{item.username}} &nbsp;
-              发帖数:{{ item.published }}
+              <i class="el-icon-chat-line-square"></i>
+              楼层id: {{item.floorId}}
+              从属帖子id: {{item.belongPostId}} &nbsp;
+
             </div>
+            <div class="content" v-html="item.content"></div>
             <div class="ItemCenter">
               <div class="replyCount">
                 <i class="iconfont icon-kuaisuhuifu"></i>
@@ -73,15 +81,15 @@
         </div>
       </div>
 
-<!--      帖子管理页面-->
+      <!--      帖子管理页面-->
       <div class="article" v-show="postManagementShow" v-bind:title="postsList">
         <div class="articleItem" v-for="(item, index) in postsList" :key="index">
           <div class="post-block-code">
             <div class="post-code" v-html="'id:'+item.postId"></div>
-            <div>
+<!--            <div>
               <i class="el-icon-user"></i>
               发帖人: {{item.nickname}}
-            </div>
+            </div>-->
           </div>
           <div class="ItemCenter">
             <div class="title" v-html="item.title"></div>
@@ -107,7 +115,64 @@
           </div>
         </div>
       </div>
+      <div class="article" v-show="userManagementShow">
+        <div class="userItem" v-for="(item, index) in userList" :key="index">
+          <div class="post-block-code">
+            <div>
+              <i class="el-icon-user"></i>
+              楼层id: {{item.floorId}}
+              楼层数: {{item.floorNumber}} &nbsp;
 
+            </div>
+            <div class="content" v-html="item.content"></div>
+            <div class="ItemCenter">
+              <div class="replyCount">
+                <i class="iconfont icon-kuaisuhuifu"></i>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="ItemRight">
+            <div>
+              <el-button style="font-size:5px;color:#fd0707;"
+                         @click="deleteUser(item)">删除
+              </el-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="article" v-show="sonManagementShow">
+        <div class="userItem" v-for="(item, index) in sonList" :key="index">
+          <div class="post-block-code">
+            <div>
+              <i class="el-icon-chat-dot-round"></i>
+              子评论id: {{item.commentId}}
+              从属楼层id:{{item.belongFloorId}}
+
+            </div>
+            <div>
+              <i class="el-icon-tickets"></i>
+              内容: {{item.content}} &nbsp;
+            </div>
+            <div class="content" v-html="item.content"></div>
+            <div class="ItemCenter">
+              <div class="replyCount">
+                <i class="iconfont icon-kuaisuhuifu"></i>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="ItemRight">
+            <div>
+              <el-button style="font-size:5px;color:#fd0707;"
+                         @click="deleteUser(item)">删除
+              </el-button>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="bottom">
         <!-- 分页组件 -->
         <el-pagination background layout="prev, pager, next" :total="1000"
@@ -117,8 +182,8 @@
         </el-pagination>
       </div>
       <GoTop></GoTop>
-      </div>
     </div>
+  </div>
 
 
 
@@ -128,7 +193,7 @@
 import GoTop from "../utils/GoTop";
 
 export default {
-  name: "adminProfile",
+  name: "myManagement",
   components:{
     GoTop
   },
@@ -136,6 +201,7 @@ export default {
     return {
       userManagementShow:true,
       postManagementShow:false,
+      sonManagementShow:false,
       keyWord:'',
       //文章管理相关
       postsList:[],
@@ -146,6 +212,8 @@ export default {
       total:'',
       //用户管理相关
       userList:[],
+      //
+      sonList:[],
     }
   },
 
@@ -157,12 +225,21 @@ export default {
     userManagementClick(){
       this.userManagementShow=true;
       this.postManagementShow=false;
+      this.sonManagementShow=false;
       this.page=1;
       this.changePage(1);
     },
     postManagementClick(){
       this.userManagementShow=false;
       this.postManagementShow=true;
+      this.sonManagementShow=false;
+      this.page=1;
+      this.changePage(1);
+    },
+    sonMangementClick(){
+      this.sonManagementShow=true;
+      this.userManagementShow=false;
+      this.postManagementShow=false;
       this.page=1;
       this.changePage(1);
     },
@@ -175,8 +252,11 @@ export default {
       if(this.postManagementShow===true){
         this.getPosts();
       }
-      else{
+      else if(this.userManagementShow===true){
         this.getUsers();
+      }
+      else{
+        this.getSon();
       }
     },
     keyWordSearch(){
@@ -194,7 +274,7 @@ export default {
       const self = this;
       self.$axios({
         method:'get',
-        url:'/post/posts?keyword='+this.keyWord+'&size=5&page='+this.page+'&order=1'
+        url:'/post/myposts?&size=5&page='+this.page+'&order=1'
       }).then(res=>{
         console.log(res)
         if(res.data.flag===true) {
@@ -218,25 +298,25 @@ export default {
         method: 'delete',
         url: 'post/' + pid
       }).then(res => {
-          if (res.data.flag === true) {
-            console.log(res)
-            this.postManagementClick()
-            this.$message.success("帖子删除成功")
-          } else {
-            console.log(res)
-            alert(res.data.message)
-          }
-        })
+        if (res.data.flag === true) {
+          console.log(res)
+          this.postManagementClick()
+          this.$message.success("帖子删除成功")
+        } else {
+          console.log(res)
+          alert(res.data.message)
+        }
+      })
     },
 
 
-    //============================用户管理相关=================================
+    //============================楼层管理相关=================================
     //获取用户列表
     getUsers() {
       const self = this;
       self.$axios({
         method:'get',
-        url:'/user/users?keyword='+this.keyWord+'&userId'+'&size=8&page='+this.page+'&order=1'
+        url:'/post/floor/myfloors?&size=5&page='+this.page+'&order=1'
       }).then(res=>{
         if(res.data.flag===true) {
           this.userList=res.data.data.records
@@ -261,14 +341,35 @@ export default {
         method: 'delete',
         url: 'user/' + uid
       }).then(res => {
-          // console.log(res)
-          if (res.data.flag === true) {
-            this.userManagementClick();
-            this.$message.success("用户删除成功")
-          } else {
-            alert(res.data.message)
-          }
-        })
+        // console.log(res)
+        if (res.data.flag === true) {
+          this.userManagementClick();
+          this.$message.success("用户删除成功")
+        } else {
+          alert(res.data.message)
+        }
+      })
+    },
+
+    getSon() {
+      const self = this;
+      self.$axios({
+        method:'get',
+        url:'/post/comment/mycomments?&size=5&page='+this.page+'&order=1'
+      }).then(res=>{
+        console.log(res)
+        if(res.data.flag===true) {
+          this.sonList=res.data.data.records
+          this.total=res.data.data.total
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
+        }
+        else {
+          alert(res.data.message)
+        }
+      })
     },
   }
 }

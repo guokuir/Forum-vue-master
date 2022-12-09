@@ -7,7 +7,7 @@ import welcome from "../components/welcome";
 import user from "../components/commonUser/user";
 import {use} from "element-ui";
 import {drag} from '../assets/JS/welcome'
-
+import  myManagement from"../components/manage/myManagement"
 import releasepost from "../components/post/releasepost";
 import homepageone from "../components/post/homepageone";
 import posts from "../components/post/posts";
@@ -45,6 +45,12 @@ export default new Router({
           path:'/welcome',
           component:welcome
         },
+        {
+          name:'myManagement',
+          path:'/myManagement',
+          component:myManagement
+        },
+
         {
           name:'user',
           path:'/user',

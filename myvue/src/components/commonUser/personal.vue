@@ -125,14 +125,14 @@
 </template>
 
 <script>
-import npulogo from "../../assets/zstu-logo.png";
+import zstulogo from "../../assets/zstu-logo.png";
 
 export default {
   name: "personal",
   data(){
     return{
       userInfo:true,
-      src:npulogo,
+      src:zstulogo,
       levelName:'',
       isCollapse:false,
       infomationShow:true,
@@ -184,8 +184,6 @@ export default {
             this.visits = res.data.visits
             this.introduction = res.data.data.introduction
             console.log(res)
-
-
           } else {
             alert(res.data.message)
             alert(res.data.data)

@@ -11,6 +11,7 @@
           </div>
           <div style="margin-top:5px;margin-left:6px;"><span>{{formLabelAlign.realName}}</span></div>
           <div style="margin-top:50px;margin-left:1px;"><el-button style="font-size:15px;color:#4D4D4D;"  @click="infomationClick()">个人信息<span style="color:#B0E0E6;" v-show="infomationShow" class="el-icon-s-promotion"></span></el-button></div>
+<!--          <div style="margin-top:50px;margin-left:1px;"><el-button style="font-size:15px;color:#4D4D4D;"  @click="commentClick()">我的帖子<span style="color:#B0E0E6;" v-show="commentShow" class="el-icon-s-promotion"></span></el-button></div>-->
           <div style="margin-top:50px;margin-left:1px;"><el-button style="font-size:15px;color:#4D4D4D;"  @click="passwordClick()">修改密码<span style="color:#B0E0E6;" v-show="passwordShow" class="el-icon-s-promotion"></span></el-button></div>
           <div style="margin-top:50px;margin-left:1px;"><el-button style="font-size:15px;color:#4D4D4D;"  @click="infoChangeClick()">修改信息<span style="color:#B0E0E6;" v-show="infoChangeShow" class="el-icon-s-promotion"></span></el-button></div>
         </el-col>
@@ -59,10 +60,6 @@
                     <el-col :span="8"><div style="text-align:left;"><span>电子邮箱：</span></div></el-col>
                     <el-col :span="8">{{formLabelAlign.email}}</el-col>
                   </el-row>
-<!--                  <el-row :gutter="12" style="margin-top:30px;">
-                    <el-col :span="8"><div style="text-align:left;"><span>生日：</span></div></el-col>
-                    <el-col :span="8">{{formLabelAlign.birthday}}</el-col>
-                  </el-row-->>
                   <el-row :gutter="12" style="margin-top:30px;">
                     <el-col :span="8"><div style="text-align:left;"><span>介绍：</span></div></el-col>
                     <el-col :span="8">{{formLabelAlign.introduction}}</el-col>
@@ -72,6 +69,9 @@
               </el-row>
             </el-card>
           </el-row>
+          <!--个人帖子管理-->
+<!--          <el-row v-show="infoChangeShow">-->
+
           <!-- 修改密码 -->
           <el-row v-show="passwordShow">
             <el-card style="margin-top: 30px; margin-left: 50px">
@@ -175,6 +175,7 @@ export default {
       src:zstulogo,
       levelName:'',
       isCollapse:false,
+      commentShow:false,
       infomationShow:true,
       passwordShow:false,
       infoChangeShow:false,
@@ -254,18 +255,26 @@ export default {
       this.infomationShow = true;
       this.passwordShow = false;
       this.infoChangeShow = false;
+      this.commentShow=false;
     },
-
+    commentClick(){
+      this.infomationShow = false;
+      this.passwordShow = false;
+      this.infoChangeShow = false;
+      this.commentShow=true;
+    },
     passwordClick(){     //显示密码修改页面
       this.infomationShow = false;
       this.passwordShow = true;
       this.infoChangeShow=false;
+      this.commentShow=false;
     },
 
     infoChangeClick(){     //显示个人信息修改页面
       this.infomationShow = false;
       this.passwordShow = false;
       this.infoChangeShow=true;
+      this.commentShow=false;
     },
 
     sendMsg() {    //时间按钮

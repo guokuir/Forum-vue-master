@@ -131,7 +131,6 @@ export default{
           if(res.data.flag===true) {
             console.log(res)
             this.$notify.success('登录成功')
-            //alert(res.data.data.userId)
             //保存静态变量id，以便后续识别是否登录
             this.$store.commit("saveLocalid",res.data.data.userId)
             this.$store.commit("saveToken",res.data.data.token)
@@ -172,10 +171,6 @@ export default{
         window.alert("请输入正确的用户名");
         // return;
       }
-        // else if(this.validEmail() === false){
-        //   window.alert("请输入正确的邮箱");
-        //   // return;
-      // }
       else if(this.finiteLengthPassword()===false){
         window.alert("密码过长请重新输入");
         // return;
@@ -200,19 +195,17 @@ export default{
           },
           data: {
             username: self.form.username,
-            //好像接口不用邮箱
-            //  useremail: self.form.useremail,
             password: self.form.password
-            //好像接口也没用这个
-            //rememberMe:self.form.rememberMe
           }
         })
           .then( res => {
             if(res.data.flag===true)
             {
+              console.log(res)
               alert(res.data.message);
+              self.form.userId=res.data.data
               this.login();
-              this.$notify.success('注册成功')
+              this.$notify.success('注册成功,用户id为 '+res.data.data)
             }
             else {
               // console.log(res)
@@ -224,17 +217,9 @@ export default{
           })
       }
     },
-    //下面的created mcl暂时不知道啥意思，先放一下
-    // created() {
-    //   // Simple POST request with a JSON body using axios
-    //   const article = { title: "Vue POST Request Example" };
-    //   axios.post("https://reqres.in/api/articles", article)
-    //     .then(response => this.articleId = response.data.id);
-    // },
-    /*
-     * 表单信息合法性验证函数
-     */
-    //学号输入是否合法
+
+
+    //用户id输入是否合法
     validID(){
       //！！！大坑！！！必须先判断是否有此属性，因为vue的length是取内存中的！
       // if(this.form.username) {
@@ -249,15 +234,6 @@ export default{
       //   return true;
       // }
       return true;
-    },
-    //验证邮箱是否合法
-    validEmail() {
-      var verify = /^\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/;
-      this.emailError = !verify.test(this.useremail);
-    },
-    //验证nickname和realname长度是否合法
-    finiteLengthName(name){
-      return name.length < 10;
     },
     //验证密码长度是否合法
     finiteLengthPassword(){

@@ -14,12 +14,6 @@
       ></el-autocomplete>
 
 
-
-
-
-
-
-
       <el-button icon="el-icon-search"  type="info" circle @click="keyWordSearch()"></el-button>
       <br>
       <br>
@@ -232,6 +226,7 @@ export default {
 .right {
   padding: 80px 30px 50px;
   width: calc(100% - 200px);
+  /*position: center;*/
 }
 
 .writeButton {

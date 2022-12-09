@@ -23,6 +23,7 @@
           <el-menu-item index="/releasepost">发布问题</el-menu-item>
 
           <el-menu-item index="/userProfile" >个人信息</el-menu-item>
+          <el-menu-item index="/myManagement">管理我的发布</el-menu-item>
           <el-menu-item v-if="isAdmin === true" index="adminProfile">后台管理</el-menu-item>
        </el-menu>
       </div>
